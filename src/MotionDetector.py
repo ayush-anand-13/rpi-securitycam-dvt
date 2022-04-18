@@ -64,21 +64,21 @@ class MotionDetector:
         while self.runner.should_run():
             #image_pair[0] = image_pair[1]
             #image_pair[1] = self.camera.capture_next_image()
-            if self.camera.is_recording:
-                self.camera.start_recording()
-                self.camera.start_preview()
-                startTime = time.time()
-                if time.time() - startTime > 0.5:
-                    self.camera.stop_recording()
-                    self.camera.stop_preview()
-                    recorded_stream = self.camera.get_video_stream()
-                    recorded_stream.seek(0)
+         
+            self.camera.start_recording()
+            self.camera.start_preview()
+            startTime = time.time()
+            if time.time() - startTime > 0.5:
+                self.camera.stop_recording()
+                self.camera.stop_preview()
+                recorded_stream = self.camera.get_video_stream()
+                recorded_stream.seek(0)
 
-                    timestamp = time.strftime("%Y%m%d-%H%M%S")
-                    encoded_filename = '{}.h264'.format(timestamp)
+                timestamp = time.strftime("%Y%m%d-%H%M%S")
+                encoded_filename = '{}.h264'.format(timestamp)
 
-                    print('Saving to database')
-                    self.database.save_footage(recorded_stream, encoded_filename)
+                print('Saving to database')
+                self.database.save_footage(recorded_stream, encoded_filename)
 
 
                 #self.camera.annotate()
