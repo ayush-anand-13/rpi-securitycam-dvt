@@ -61,12 +61,17 @@ class MotionDetector:
         self.database.connect()
 
         self.runner.start()
+        startTime = time.time()
+        self.camera.start_recording()
+        self.camera.start_preview()
+
         while self.runner.should_run():
             #image_pair[0] = image_pair[1]
             #image_pair[1] = self.camera.capture_next_image()
          
            
-            startTime = time.time()
+            
+
             if time.time() - startTime > 0.5:
                 self.camera.stop_recording()
                 self.camera.stop_preview()
@@ -81,6 +86,8 @@ class MotionDetector:
 
                 self.camera.start_recording()
                 self.camera.start_preview()
+                startTime = time.time()
+
 
 
                 #self.camera.annotate()
