@@ -65,8 +65,7 @@ class MotionDetector:
             #image_pair[0] = image_pair[1]
             #image_pair[1] = self.camera.capture_next_image()
          
-            self.camera.start_recording()
-            self.camera.start_preview()
+           
             startTime = time.time()
             if time.time() - startTime > 0.5:
                 self.camera.stop_recording()
@@ -79,6 +78,9 @@ class MotionDetector:
 
                 print('Saving to database')
                 self.database.save_footage(recorded_stream, encoded_filename)
+
+                self.camera.start_recording()
+                self.camera.start_preview()
 
 
                 #self.camera.annotate()
