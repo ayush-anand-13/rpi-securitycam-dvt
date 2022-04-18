@@ -1,4 +1,4 @@
- import numpy as np
+import numpy as np
 from camera.MotionCamera import MotionCamera
 from database.Database import Database
 from runner.Runner import Runner
