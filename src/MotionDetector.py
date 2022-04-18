@@ -1,4 +1,4 @@
-import numpy as np
+ import numpy as np
 from camera.MotionCamera import MotionCamera
 from database.Database import Database
 from runner.Runner import Runner
@@ -62,19 +62,13 @@ class MotionDetector:
 
         self.runner.start()
         while self.runner.should_run():
-            image_pair[0] = image_pair[1]
-            image_pair[1] = self.camera.capture_next_image()
+            #image_pair[0] = image_pair[1]
+            #image_pair[1] = self.camera.capture_next_image()
             if self.camera.is_recording:
-                self.camera.annotate()
-                motion_confirmed = self.test_for_motion(image_pair[0], image_pair[1], self.active_ratio)
-                self.print_movement_logs(self.active_ratio)
-                if motion_confirmed:
-                    print('Motion confirmed')
-                    last_motion_triggered = time.time()
-                elif time.time() - last_motion_triggered < 2:
-                    continue
-                else:
-                    print('Movement stopped and cooldown period expired. Saving video file.')
+                self.camera.start_recording()
+                self.camera.start_preview()
+                startTime = time.time()
+                if time.time() - startTime > 0.5:
                     self.camera.stop_recording()
                     self.camera.stop_preview()
                     recorded_stream = self.camera.get_video_stream()
@@ -85,16 +79,38 @@ class MotionDetector:
 
                     print('Saving to database')
                     self.database.save_footage(recorded_stream, encoded_filename)
-                    image_pair[1] = self.camera.capture_next_image()
-            else:
-                motion_confirmed = self.test_for_motion(image_pair[0], image_pair[1], self.inactive_ratio)
-                self.print_movement_logs(self.inactive_ratio)
-                if motion_confirmed:
-                    self.camera.start_recording()
-                    self.camera.start_preview()
-                    last_motion_triggered = time.time()
-                else:
-                    continue
+
+
+                #self.camera.annotate()
+                #motion_confirmed = self.test_for_motion(image_pair[0], image_pair[1], self.active_ratio)
+                #self.print_movement_logs(self.active_ratio)
+                #if motion_confirmed:
+                #    print('Motion confirmed')
+                #    last_motion_triggered = time.time()
+            #     elif time.time() - last_motion_triggered < 2:
+            #         continue
+            #     else:
+            #         print('Movement stopped and cooldown period expired. Saving video file.')
+            #         self.camera.stop_recording()
+            #         self.camera.stop_preview()
+            #         recorded_stream = self.camera.get_video_stream()
+            #         recorded_stream.seek(0)
+
+            #         timestamp = time.strftime("%Y%m%d-%H%M%S")
+            #         encoded_filename = '{}.h264'.format(timestamp)
+
+            #         print('Saving to database')
+            #         self.database.save_footage(recorded_stream, encoded_filename)
+            #         image_pair[1] = self.camera.capture_next_image()
+            # else:
+            #     motion_confirmed = self.test_for_motion(image_pair[0], image_pair[1], self.inactive_ratio)
+            #     self.print_movement_logs(self.inactive_ratio)
+            #     if motion_confirmed:
+            #         self.camera.start_recording()
+            #         self.camera.start_preview()
+            #         last_motion_triggered = time.time()
+            #     else:
+            #         continue
 
         self.camera.close()
         self.database.close()
