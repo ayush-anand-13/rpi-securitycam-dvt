@@ -86,7 +86,7 @@ if __name__ == '__main__':
     else:
         runner = TimeRunner(args.time)
 
-    s3db = S3database()
+    database = S3database()
     #detector = MotionDetector(cam, s3db, runner)
     #detector.run(camera, database,runner)
     # create two new threads
