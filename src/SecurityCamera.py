@@ -112,8 +112,11 @@ def get_result():
         messages = response.get('Messages', [])
         for message in messages:
             receipt_handle = message['ReceiptHandle']
+            edntime = time.time()
             result = message['Body']
-            print(result)
+            values = result.split(',')
+            print(values)
+            timestamp = datetime.datetime.strptime(values[0], "%Y%m%d-%H%M%S,%f").timestamp()
             #print("Latency = ", time.time()-start_time)
             sqs_client.delete_message(QueueUrl=output_queue, ReceiptHandle=receipt_handle)
             print('Message deleted.')
