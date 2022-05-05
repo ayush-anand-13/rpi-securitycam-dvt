@@ -64,6 +64,8 @@ def run(camera, database,runner):
             #file_save(camera, database,runner,recorded_stream)
             timestamp = time.strftime("%Y%m%d-%H%M%S")
             encoded_filename = '{}.h264'.format(timestamp)
+            with open(encoded_filename, 'w') as file:
+                file.write(recorded_stream)
 
 
     # create two new threads
