@@ -100,6 +100,24 @@ def run(camera, database,runner):
     camera.close()
     database.close()
 
+
+def get_result():
+    sqs_client = boto3.client('sqs')
+    output_queue = 'https://sqs.us-east-1.amazonaws.com/451636408257/outputMessageQueue'
+    while True:
+        response = sqs_client.receive_message(QueueUrl=output_queue,
+                                              MaxNumberOfMessages=10
+                                              )
+
+        messages = response.get('Messages', [])
+        for message in messages:
+            receipt_handle = message['ReceiptHandle']
+            result = message['Body']
+            print(result)
+            #print("Latency = ", time.time()-start_time)
+            sqs_client.delete_message(QueueUrl=output_queue, ReceiptHandle=receipt_handle)
+            print('Message deleted.')
+
 if __name__ == '__main__':
 
     start_time = perf_counter()
@@ -133,7 +151,19 @@ if __name__ == '__main__':
     database = S3database()
     #detector = MotionDetector(cam, s3db, runner)
     #detector.run(camera, database,runner)
-    run(camera,database,runner)
+
+    t1 = Thread(target=run, args=[camera,database,runner])
+    t2 = Thread(target=get_result)
+
+    # start the threads
+    t1.start()
+    t2.start()
+
+    # wait for the threads to complete
+    t1.join()
+    t2.join()
+
+    #run(camera,database,runner)
 
     end_time = perf_counter()
 
