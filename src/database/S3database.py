@@ -12,7 +12,7 @@ class S3database(Database):
     def save_footage(self, footage_stream, filename: str):
         self.s3_client.upload_fileobj(
             footage_stream,
-            'inputcse546pi',
+            'inputbucketcse546',
             filename
         )
 

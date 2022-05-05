@@ -19,17 +19,20 @@ from ffmpeg import FFmpeg
 from time import sleep, perf_counter
 from threading import Thread
 
-def file_save(camera, database,runner):
-
-    timestamp = time.strftime("%Y%m%d-%H%M%S")
-    encoded_filename = '{}.h264'.format(timestamp)
+def vid_save(recorded_stream,encoded_filename):
 
     print('Saving to database')
     database.save_footage(recorded_stream, encoded_filename)
 
-    camera.start_recording()
-    camera.start_preview()
-    startTime = time.time()
+def img_save(recorded_stream,encoded_filename):
+
+    print('Saving to database')
+    
+
+
+    #database.save_footage(recorded_stream, encoded_filename)
+
+
 
 def run(camera, database,runner):
 
@@ -42,6 +45,7 @@ def run(camera, database,runner):
     camera.start_recording()
     camera.start_preview()
 
+
     while runner.should_run():
 
         if time.time() - startTime > 0.5:
@@ -49,7 +53,25 @@ def run(camera, database,runner):
             camera.stop_preview()
             recorded_stream = camera.get_video_stream()
             recorded_stream.seek(0)
-            file_save(camera, database,runner)
+            #file_save(camera, database,runner,recorded_stream)
+            timestamp = time.strftime("%Y%m%d-%H%M%S")
+            encoded_filename = '{}.h264'.format(timestamp)
+
+    # create two new threads
+            t1 = Thread(target=img_save, args=[recorded_stream,encoded_filename])
+            t2 = Thread(target=vid_save, args=[recorded_stream,encoded_filename])
+
+            # start the threads
+            t1.start()
+            t2.start()
+
+            # wait for the threads to complete
+            t1.join()
+            t2.join()
+            camera.start_recording()
+            camera.start_preview()
+            startTime = time.time()
+
 
     camera.close()
     database.close()
@@ -57,8 +79,6 @@ def run(camera, database,runner):
 if __name__ == '__main__':
 
     start_time = perf_counter()
-
-
 
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -89,18 +109,8 @@ if __name__ == '__main__':
     database = S3database()
     #detector = MotionDetector(cam, s3db, runner)
     #detector.run(camera, database,runner)
-    # create two new threads
-    t1 = Thread(target=run, args=[camera, database,runner])
-    t2 = Thread(target=file_save, args=[camera, database,runner])
-
-    # start the threads
-    t1.start()
-    t2.start()
-
-    # wait for the threads to complete
-    t1.join()
-    t2.join()
 
     end_time = perf_counter()
 
     print(f'It took {end_time- start_time: 0.2f} second(s) to complete.')
+
