@@ -26,7 +26,7 @@ def vid_save(recorded_stream,encoded_filename):
 
 def img_save(recorded_stream,encoded_filename):
 
-    print('Saving to database')
+    print('Saving image to database')
 
 
 
