@@ -42,7 +42,7 @@ def img_save(encoded_filename,timestamp):
     image.save(fileName)
     s3_client1 = boto3.client('s3')
     s3_client1.upload_fileobj(
-            fileName,
+            image,
             'inputcse546pi',
             fileName
         )
