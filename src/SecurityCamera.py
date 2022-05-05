@@ -5,6 +5,8 @@ from runner.AlwaysOnRunner import AlwaysOnRunner
 from database.S3database import S3database
 from time import sleep
 import argparse
+from cv2 import cv2
+from PIL import Image
 
 import numpy as np
 from camera.MotionCamera import MotionCamera
@@ -24,9 +26,15 @@ def vid_save(recorded_stream,encoded_filename):
     print('Saving to database')
     database.save_footage(recorded_stream, encoded_filename)
 
-def img_save(recorded_stream,encoded_filename):
+def img_save(recorded_stream,timestamp):
 
     print('Saving image to database')
+    cap = cv2.VideoCapture(recorded_stream)
+    ret, img = cap.read()
+    cap.release()
+
+    image = Image.fromarray(img)
+    image.save('{}.png'.format(timestamp))
 
 
 
@@ -59,7 +67,7 @@ def run(camera, database,runner):
 
 
     # create two new threads
-            t1 = Thread(target=img_save, args=[recorded_stream,encoded_filename])
+            t1 = Thread(target=img_save, args=[recorded_stream,timestamp])
             t2 = Thread(target=vid_save, args=[recorded_stream,encoded_filename])
 
             # start the threads
