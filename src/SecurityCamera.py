@@ -28,7 +28,7 @@ def vid_save(recorded_stream,encoded_filename):
 
 def img_save(encoded_filename,timestamp):
 
-    #print('Saving image to database')
+    print('Saving image to database')
     #cap = cv2.VideoCapture(encoded_filename)
     #ret, img = cap.read()
     #cap.release()
