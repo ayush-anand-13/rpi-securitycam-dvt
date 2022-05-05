@@ -9,6 +9,8 @@ from cv2 import cv2
 from PIL import Image
 import boto3
 from botocore.exceptions import NoCredentialsError
+import time
+import datetime
 
 
 import numpy as np
@@ -116,7 +118,9 @@ def get_result():
             result = message['Body']
             values = result.split(',')
             print(values)
-            timestamp = datetime.datetime.strptime(values[0], "%Y%m%d-%H%M%S,%f").timestamp()
+            dateVal = values[0].split('.')
+            timeEnd = datetime.datetime.strptime(dateVal[0], "%Y%m%d-%H%M%S,%f").timestamp()
+            print(timeEnd)
             #print("Latency = ", time.time()-start_time)
             sqs_client.delete_message(QueueUrl=output_queue, ReceiptHandle=receipt_handle)
             print('Message deleted.')
