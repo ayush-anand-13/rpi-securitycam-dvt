@@ -27,7 +27,7 @@ def vid_save(recorded_stream,encoded_filename):
 def img_save(recorded_stream,encoded_filename):
 
     print('Saving to database')
-    
+
 
 
     #database.save_footage(recorded_stream, encoded_filename)
@@ -56,6 +56,7 @@ def run(camera, database,runner):
             #file_save(camera, database,runner,recorded_stream)
             timestamp = time.strftime("%Y%m%d-%H%M%S")
             encoded_filename = '{}.h264'.format(timestamp)
+
 
     # create two new threads
             t1 = Thread(target=img_save, args=[recorded_stream,encoded_filename])
@@ -109,6 +110,7 @@ if __name__ == '__main__':
     database = S3database()
     #detector = MotionDetector(cam, s3db, runner)
     #detector.run(camera, database,runner)
+    run(camera,database,runner)
 
     end_time = perf_counter()
 
