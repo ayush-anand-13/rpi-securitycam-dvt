@@ -19,7 +19,7 @@ from ffmpeg import FFmpeg
 from time import sleep, perf_counter
 from threading import Thread
 
-def file_save(camera, database,runner)
+def file_save(camera, database,runner):
 
     timestamp = time.strftime("%Y%m%d-%H%M%S")
     encoded_filename = '{}.h264'.format(timestamp)
