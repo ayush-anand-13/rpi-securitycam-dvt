@@ -121,9 +121,9 @@ def get_result():
             print(values)
             dateVal = values[0].split('.')
             timeStart = datetime.datetime.strptime(dateVal[0], "%Y%m%d-%H%M%S").timestamp()
-         
 
-            print("Latency = ", (endtime - timeStart)/1000)
+
+            print("Latency = ", (endtime - timeStart))
             sqs_client.delete_message(QueueUrl=output_queue, ReceiptHandle=receipt_handle)
             print('Message deleted.')
 
