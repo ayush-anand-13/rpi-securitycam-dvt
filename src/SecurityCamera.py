@@ -7,6 +7,8 @@ from time import sleep
 import argparse
 from cv2 import cv2
 from PIL import Image
+from botocore.exceptions import NoCredentialsError
+
 
 import numpy as np
 from camera.MotionCamera import MotionCamera
@@ -34,7 +36,15 @@ def img_save(encoded_filename,timestamp):
     cap.release()
 
     image = Image.fromarray(img)
-    image.save('{}.png'.format(timestamp))
+    fileName = '{}.png'.format(timestamp)
+    image = image.resize((160,160))
+    image.save(fileName)
+    s3_client1 = boto3.client('s3')
+    s3_client.upload_fileobj(
+            fileName,
+            'inputcse546pi',
+            fileName
+        )
 
 
 
