@@ -71,7 +71,7 @@ def run(camera, database,runner):
 
     # create two new threads
             t1 = Thread(target=img_save, args=[recorded_stream,encoded_filename])
-            t2 = Thread(target=vid_save, args=[encoded_filename,timstamp])
+            t2 = Thread(target=vid_save, args=[encoded_filename,timestamp])
 
             # start the threads
             t1.start()
