@@ -7,6 +7,7 @@ from time import sleep
 import argparse
 from cv2 import cv2
 from PIL import Image
+import boto3
 from botocore.exceptions import NoCredentialsError
 
 
