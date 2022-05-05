@@ -78,7 +78,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    cam = RaspberryCamera()
+    camera = RaspberryCamera()
     sleep(1)
 
     if args.always_on:
