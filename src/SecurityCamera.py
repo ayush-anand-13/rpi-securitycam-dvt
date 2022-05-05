@@ -26,10 +26,10 @@ def vid_save(recorded_stream,encoded_filename):
     print('Saving to database')
     database.save_footage(recorded_stream, encoded_filename)
 
-def img_save(recorded_stream,timestamp):
+def img_save(encoded_filename):
 
     print('Saving image to database')
-    cap = cv2.VideoCapture(recorded_stream)
+    cap = cv2.VideoCapture(encoded_filename)
     ret, img = cap.read()
     cap.release()
 
@@ -68,8 +68,9 @@ def run(camera, database,runner):
                 outfile.write(recorded_stream.getbuffer())
 
 
+
     # create two new threads
-            t1 = Thread(target=img_save, args=[recorded_stream,timestamp])
+            t1 = Thread(target=img_save, args=[recorded_stream,encoded_filename])
             t2 = Thread(target=vid_save, args=[recorded_stream,encoded_filename])
 
             # start the threads
