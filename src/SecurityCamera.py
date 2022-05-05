@@ -28,12 +28,12 @@ from threading import Thread
 
 def vid_save(recorded_stream,encoded_filename):
 
-    print('Saving to database')
+    #print('Saving to database')
     database.save_footage(recorded_stream, encoded_filename)
 
 def img_save(encoded_filename,timestamp):
 
-    print('Saving image to database')
+    #print('Saving image to database')
     cap = cv2.VideoCapture(encoded_filename)
     ret, img = cap.read()
     cap.release()
@@ -118,14 +118,16 @@ def get_result():
 
             result = message['Body']
             values = result.split(',')
-            print(values)
+            #print(values)
             dateVal = values[0].split('.')
             timeStart = datetime.datetime.strptime(dateVal[0], "%Y%m%d-%H%M%S").timestamp()
+
+            print("Year:"+values[1]+' '+ "Name:" + values[2] + "Major:" + values[3])
 
 
             print("Latency = ", (endtime - timeStart))
             sqs_client.delete_message(QueueUrl=output_queue, ReceiptHandle=receipt_handle)
-            print('Message deleted.')
+            #print('Message deleted.')
 
 if __name__ == '__main__':
 
