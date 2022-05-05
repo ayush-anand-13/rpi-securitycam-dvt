@@ -58,17 +58,7 @@ if __name__ == '__main__':
 
     start_time = perf_counter()
 
-    # create two new threads
-    t1 = Thread(target=run, args=[camera, database,runner])
-    t2 = Thread(target=file_save, args=[camera, database,runner])
 
-    # start the threads
-    t1.start()
-    t2.start()
-
-    # wait for the threads to complete
-    t1.join()
-    t2.join()
 
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -97,8 +87,19 @@ if __name__ == '__main__':
         runner = TimeRunner(args.time)
 
     s3db = S3database()
-    detector = MotionDetector(cam, s3db, runner)
-    detector.run(camera, database,runner)
+    #detector = MotionDetector(cam, s3db, runner)
+    #detector.run(camera, database,runner)
+    # create two new threads
+    t1 = Thread(target=run, args=[camera, database,runner])
+    t2 = Thread(target=file_save, args=[camera, database,runner])
+
+    # start the threads
+    t1.start()
+    t2.start()
+
+    # wait for the threads to complete
+    t1.join()
+    t2.join()
 
     end_time = perf_counter()
 
