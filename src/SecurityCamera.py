@@ -28,12 +28,12 @@ from threading import Thread
 
 def vid_save(recorded_stream,encoded_filename):
 
-    #print('Saving to database')
+    print('Saving to database')
     database.save_footage(recorded_stream, encoded_filename)
 
 def img_save(encoded_filename,timestamp):
 
-    #print('Saving image to database')
+    print('Saving image to database')
     cap = cv2.VideoCapture(encoded_filename)
     ret, img = cap.read()
     cap.release()
@@ -45,7 +45,7 @@ def img_save(encoded_filename,timestamp):
     image.save(fileName)
     s3_client1 = boto3.client('s3')
     timestamp2 = time.strftime("%Y%m%d-%H%M%S")
-    encoded_filename1 = '{}.h264'.format(timestamp2)
+    encoded_filename1 = '{}.png'.format(timestamp2)
     s3_client1.upload_file(
             fileName,
             'inputcse546pi',
