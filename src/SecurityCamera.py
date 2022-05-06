@@ -115,6 +115,7 @@ def get_result():
                                               )
 
         messages = response.get('Messages', [])
+        endtime = time.time()
 
         for message in messages:
             receipt_handle = message['ReceiptHandle']
@@ -127,7 +128,7 @@ def get_result():
 
             print("Year:"+values[1]+' '+ "Name:" + values[2] +' '+ "Major:" + values[3])
 
-            endtime = time.time()
+
 
 
             print("Latency = ", (endtime - timeStart))
