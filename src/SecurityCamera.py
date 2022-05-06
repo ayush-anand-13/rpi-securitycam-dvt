@@ -39,14 +39,17 @@ def img_save(encoded_filename,timestamp):
     cap.release()
 
     image = Image.fromarray(img)
+
     fileName = '{}.png'.format(timestamp)
     image = image.resize((160,160))
     image.save(fileName)
     s3_client1 = boto3.client('s3')
+    timestamp2 = time.strftime("%Y%m%d-%H%M%S")
+    encoded_filename1 = '{}.h264'.format(timestamp2)
     s3_client1.upload_file(
             fileName,
             'inputcse546pi',
-            fileName
+            encoded_filename1
         )
 
 
@@ -112,7 +115,7 @@ def get_result():
                                               )
 
         messages = response.get('Messages', [])
-        endtime = time.time()
+
         for message in messages:
             receipt_handle = message['ReceiptHandle']
 
@@ -122,7 +125,9 @@ def get_result():
             dateVal = values[0].split('.')
             timeStart = datetime.datetime.strptime(dateVal[0], "%Y%m%d-%H%M%S").timestamp()
 
-            print("Year:"+values[1]+' '+ "Name:" + values[2] + "Major:" + values[3])
+            print("Year:"+values[1]+' '+ "Name:" + values[2] +' '+ "Major:" + values[3])
+
+            endtime = time.time()
 
 
             print("Latency = ", (endtime - timeStart))
