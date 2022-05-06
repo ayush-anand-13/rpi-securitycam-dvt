@@ -10,6 +10,7 @@ import boto3
 from botocore.exceptions import NoCredentialsError
 import time
 import datetime
+import base64
 
 
 import numpy as np
