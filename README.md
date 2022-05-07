@@ -1,4 +1,11 @@
-# Raspberry Pi Security Cam Project
+Steps to deploy the code:
 
-This repo was forked from a private repository for a technical blog post on the
-DVT Medium.
+•	The check folder is used to create the docker with the following command.
+
+ Command: docker build check
+
+This docker images is then uploaded to AWS ecr where the lambda points to it. 
+
+•	The SecurityCamera.py is then copied to the raspberry pi where we put the following command to start the program
+
+Command: python3 MainRunner.py

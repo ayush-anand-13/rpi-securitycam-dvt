@@ -24,7 +24,6 @@ import io
 import time
 import asyncio
 from typing import Optional
-from ffmpeg import FFmpeg
 from time import sleep, perf_counter
 from threading import Thread
 
