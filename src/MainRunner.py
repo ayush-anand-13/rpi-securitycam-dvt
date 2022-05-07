@@ -58,7 +58,7 @@ def img_save(encoded_filename,timestamp):
     InvocationType='Event',
     Payload=json.dumps(input))
 
-    print(response==Null)
+    print(response==None)
 
     #t = response['Payload'].read()
     #print(t)
