@@ -58,11 +58,13 @@ def img_save(encoded_filename,timestamp):
     InvocationType='Event',
     Payload=json.dumps(input))
 
+    print(response==Null)
+
     #t = response['Payload'].read()
     #print(t)
-    t = (response['Payload'].read())
+    t = (response['status_code'].read())
     print(t)
-    f = response['Payload'].read().decode("utf-8")
+    f = response['status_code'].read().decode("utf-8")
     print(f)
 
     #database.save_footage(recorded_stream, encoded_filename)
