@@ -53,13 +53,19 @@ def img_save(encoded_filename,timestamp):
     'name': fileName,
     'image':encoded_img
     }
+    startTime = time.time()
     response = lambda_client.invoke(
     FunctionName = 'dockerApi',
     InvocationType='RequestResponse',
     Payload=json.dumps(input))
+    endTime = time.time()
+
 
     #t = response['Payload'].read();
-    print(json.loads(response['Payload'].read().decode("utf-8")))
+    print("latency=",(endTime - startTime))
+    t = json.loads(response['Payload'].read().decode("utf-8"))
+    print(t)
+
     #g = t.read()
     #print(g)
 
