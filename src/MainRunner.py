@@ -55,16 +55,16 @@ def img_save(encoded_filename,timestamp):
     }
     response = lambda_client.invoke(
     FunctionName = 'dockerApi',
-    InvocationType='Event',
+    InvocationType='RequestResponse',
     Payload=json.dumps(input))
 
     print(response==None)
 
-    t = response['Payload']
+    t = response['Payload'].read();
     print(t)
     g = t.read()
     print(g)
-    
+
 
     #database.save_footage(recorded_stream, encoded_filename)
 
