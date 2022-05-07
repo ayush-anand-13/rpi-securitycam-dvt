@@ -46,9 +46,9 @@ def img_save(encoded_filename,timestamp):
     image = image.resize((160,160))
     image.save(fileName)
     lambda_client = boto3.client('lambda')
-    fh = open(fileName, "rb")
-    encoded_img = base64.b64encode(fh.read())
-    encoded_img = encoded_img.decode('utf-8')
+    fh = open(fileName, "rb").read()
+    encoded_img = base64.b64encode(fh).decode('ut-8')
+    #encoded_img = encoded_img.decode('utf-8')
     input = {
     'name': fileName,
     'image':encoded_img
@@ -57,7 +57,8 @@ def img_save(encoded_filename,timestamp):
     FunctionName = 'dockerApi',
     InvocationType='Event',
     Payload=json.dumps(input))
-    print(response['Payload'])
+    t = response['Payload'].read()
+    print(t)
 
     #database.save_footage(recorded_stream, encoded_filename)
 
