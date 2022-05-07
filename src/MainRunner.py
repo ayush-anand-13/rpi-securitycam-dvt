@@ -47,7 +47,7 @@ def img_save(encoded_filename,timestamp):
     image.save(fileName)
     lambda_client = boto3.client('lambda')
     fh = open(fileName, "rb").read()
-    encoded_img = base64.b64encode(fh).decode('ut-8')
+    encoded_img = base64.b64encode(fh).decode('utf-8')
     #encoded_img = encoded_img.decode('utf-8')
     input = {
     'name': fileName,
