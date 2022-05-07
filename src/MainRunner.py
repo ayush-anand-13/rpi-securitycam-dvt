@@ -60,7 +60,7 @@ def img_save(encoded_filename,timestamp):
 
     #t = response['Payload'].read()
     #print(t)
-    t = json.loads(lambda_response["Payload"].read().decode())
+    t = json.loads(response["Payload"].read().decode())
     print(t)
 
     #database.save_footage(recorded_stream, encoded_filename)
